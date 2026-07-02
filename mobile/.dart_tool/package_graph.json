@@ -10,7 +10,16 @@
         "cupertino_icons",
         "flutter"
       ],
-      "devDependencies": []
+      "devDependencies": [
+        "flutter_lints"
+      ]
+    },
+    {
+      "name": "flutter_lints",
+      "version": "6.0.0",
+      "dependencies": [
+        "lints"
+      ]
     },
     {
       "name": "flutter",
@@ -54,6 +63,11 @@
     {
       "name": "characters",
       "version": "1.4.1",
+      "dependencies": []
+    },
+    {
+      "name": "lints",
+      "version": "6.1.0",
       "dependencies": []
     },
     {

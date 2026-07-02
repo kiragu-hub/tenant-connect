@@ -13,7 +13,7 @@ class TenantConnectApp extends StatelessWidget {
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.login,
       routes: AppRouter.routes,
     );
   }
