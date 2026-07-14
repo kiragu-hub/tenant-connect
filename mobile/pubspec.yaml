@@ -1,9 +1,11 @@
 name: tenantconnect
 description: TenantConnect mobile application.
 publish_to: 'none'
+
 environment:
   sdk: '>=3.0.0 <4.0.0'
   flutter: '>=3.0.0'
+
 dependencies:
   flutter:
     sdk: flutter
@@ -11,7 +13,9 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^6.0.0
+
 flutter:
   uses-material-design: true
+
   assets:
-    - web/icons/Icon-512.png
+    - assets/images/
