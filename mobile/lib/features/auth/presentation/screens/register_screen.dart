@@ -41,15 +41,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // Simulate registration
     await Future.delayed(const Duration(seconds: 2));
 
+    if (!mounted) return;
+
     setState(() {
       _isLoading = false;
     });
+
+    if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Account created successfully!"),
       ),
     );
+
+    if (!mounted) return;
 
     Navigator.pushReplacementNamed(context, AppRoutes.login);
   }

@@ -31,12 +31,15 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
 
-    // Simulate login
     await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
 
     setState(() {
       _isLoading = false;
     });
+
+    if (!mounted) return;
 
     Navigator.pushReplacementNamed(context, AppRoutes.home);
   }
@@ -45,7 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -53,26 +55,20 @@ class _LoginScreenState extends State<LoginScreen> {
               horizontal: 24,
               vertical: 20,
             ),
-
             child: Form(
               key: _formKey,
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-
-                  // Logo
                   Center(
                     child: Image.asset(
                       'assets/images/logo.png',
                       height: 130,
                     ),
                   ),
-
                   const SizedBox(height: 20),
-
                   const Text(
-                    "Tenant Connect",
+                    'Tenant Connect',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 30,
@@ -80,27 +76,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.blue,
                     ),
                   ),
-
                   const SizedBox(height: 8),
-
                   const Text(
-                    "Find. Connect. Live Better.",
+                    'Find. Connect. Live Better.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
                     ),
                   ),
-
                   const SizedBox(height: 40),
-
-                  // Email
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      labelText: "Email Address",
-                      hintText: "Enter your email",
+                      labelText: 'Email Address',
+                      hintText: 'Enter your email',
                       prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -108,31 +99,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Please enter your email";
+                        return 'Please enter your email';
                       }
-
                       if (!value.contains('@')) {
-                        return "Enter a valid email";
+                        return 'Enter a valid email';
                       }
-
                       return null;
                     },
                   ),
-
                   const SizedBox(height: 20),
-
-                  // Password
                   TextFormField(
                     controller: _passwordController,
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
-                      labelText: "Password",
-                      hintText: "Enter your password",
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
                       prefixIcon: const Icon(Icons.lock),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword
@@ -148,19 +133,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Please enter your password";
+                        return 'Please enter your password';
                       }
-
                       if (value.length < 6) {
-                        return "Password must be at least 6 characters";
+                        return 'Password must be at least 6 characters';
                       }
-
                       return null;
                     },
                   ),
-
                   const SizedBox(height: 10),
-
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -168,17 +149,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(
-                              "Forgot Password feature coming soon.",
+                              'Forgot Password feature coming soon.',
                             ),
                           ),
                         );
                       },
-                      child: const Text("Forgot Password?"),
+                      child: const Text('Forgot Password?'),
                     ),
                   ),
-
                   const SizedBox(height: 15),
-
                   SizedBox(
                     height: 55,
                     child: ElevatedButton(
@@ -195,13 +174,34 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.white,
                             )
                           : const Text(
-                              "LOGIN",
+                              'LOGIN',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                     ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account?"),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.register,
+                          );
+                        },
+                        child: const Text(
+                          'Create Account',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

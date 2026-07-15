@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+var screens = [
+  const Center(child: Text("dashboard")),
+  const Center(child: Text("Home")),
+  const Center(child: Text("Properties")),
+  const Center(child: Text("Messages")),
+  const Center(child: Text("Profile")),
+];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
 
   final List<Widget> screens = [
+    const Center(child: Text("dashboard")),
     const Center(child: Text("Home")),
     const Center(child: Text("Properties")),
     const Center(child: Text("Messages")),
@@ -38,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Dashboard',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.house),
