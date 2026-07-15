@@ -183,7 +183,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 55,
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _login,
-
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
@@ -191,7 +190,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-
                       child: _isLoading
                           ? const CircularProgressIndicator(
                               color: Colors.white,
@@ -204,34 +202,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                     ),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-                      const Text(
-                        "Don't have an account?",
-                      ),
-
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.register,
-                          );
-                        },
-                        child: const Text(
-                          "Create Account",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-
-                    ],
                   ),
                 ],
               ),

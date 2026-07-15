@@ -8,168 +8,50 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int currentIndex = 0;
 
-  int _currentIndex = 0;
-
-  Widget dashboardCard(
-    IconData icon,
-    String title,
-    Color color,
-  ) {
-    return Card(
-      elevation: 3,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {},
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                size: 45,
-                color: color,
-              ),
-
-              const SizedBox(height: 12),
-
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  final List<Widget> screens = [
+    const Center(child: Text("Home")),
+    const Center(child: Text("Properties")),
+    const Center(child: Text("Messages")),
+    const Center(child: Text("Profile")),
+  ];
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: AppBar(
-        title: const Text("Tenant Connect"),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Icon(Icons.notifications),
-          )
-        ],
+        title: const Text("Tenant Connect Home"),
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-
-        child: Column(
-
-          crossAxisAlignment: CrossAxisAlignment.start,
-
-          children: [
-
-            const Text(
-              "Welcome Back 👋",
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            const Text(
-              "Find your next home or manage your properties.",
-            ),
-
-            const SizedBox(height: 20),
-
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                children: [
-
-                  dashboardCard(
-                    Icons.home,
-                    "Properties",
-                    Colors.blue,
-                  ),
-
-                  dashboardCard(
-                    Icons.message,
-                    "Messages",
-                    Colors.green,
-                  ),
-
-                  dashboardCard(
-                    Icons.payment,
-                    "Payments",
-                    Colors.orange,
-                  ),
-
-                  dashboardCard(
-                    Icons.build,
-                    "Maintenance",
-                    Colors.red,
-                  ),
-
-                ],
-              ),
-            ),
-
-          ],
-        ),
-      ),
-
+      body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-
-        currentIndex: _currentIndex,
-
-        onTap: (index) {
-
-          setState(() {
-
-            _currentIndex = index;
-
-          });
-
-        },
-
         type: BottomNavigationBarType.fixed,
-
+        backgroundColor: Colors.blue,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
         items: const [
-
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: "Home",
+            label: 'Home',
           ),
-
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Search",
+            icon: Icon(Icons.house),
+            label: 'Properties',
           ),
-
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_box),
-            label: "Add",
+            icon: Icon(Icons.message),
+            label: 'Messages',
           ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: "Chat",
-          ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: "Profile",
+            label: 'Profile',
           ),
-
         ],
       ),
     );
