@@ -1,6 +1,5 @@
 class AppConstants {
-  AppConstants._();
+  const AppConstants._();
 
-  static const String appName = 'TenantConnect';
-  static const String appVersion = '1.0.0';
+  static const appName = 'Tenant Connect';
 }

@@ -1,6 +1,6 @@
 {
-    "name": "tenant_connect",
-    "short_name": "tenant_connect",
+    "name": "tenantconnect",
+    "short_name": "tenantconnect",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
