@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-var screens = [
-  const Center(child: Text("dashboard")),
-  const Center(child: Text("Home")),
-  const Center(child: Text("Properties")),
-  const Center(child: Text("Messages")),
-  const Center(child: Text("Profile")),
-];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
