@@ -83,17 +83,14 @@ class PropertyCard extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 12),
-
-            Text(
-              "KSh ${price.toStringAsFixed(0)} / month",
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
+          Text(
+  "KSh ${price.toStringAsFixed(0)} / month",
+  style: const TextStyle(
+    fontSize: 20,
+    color: Colors.blue,
+    fontWeight: FontWeight.bold,
+  ),
+),
             const SizedBox(height: 20),
 
             SizedBox(

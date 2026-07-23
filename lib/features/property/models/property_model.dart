@@ -30,20 +30,20 @@ class PropertyModel {
   });
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
-    return PropertyModel(
-      id: int.parse(json["id"].toString()),
-      landlordId: int.parse(json["landlord_id"].toString()),
-      title: json["title"] ?? "",
-      description: json["description"] ?? "",
-      propertyType: json["property_type"] ?? "",
-      location: json["location"] ?? "",
-      price: double.parse(json["price"].toString()),
-      bedrooms: int.parse(json["bedrooms"].toString()),
-      bathrooms: int.parse(json["bathrooms"].toString()),
-      diningRooms: int.parse(json["dining_rooms"].toString()),
-      amenities: json["amenities"] ?? "",
-      image: json["image"] ?? "",
-      status: json["status"] ?? "",
-    );
-  }
+  return PropertyModel(
+    id: int.tryParse(json["id"].toString()) ?? 0,
+    landlordId: int.tryParse(json["landlord_id"].toString()) ?? 0,
+    title: json["title"]?.toString() ?? "",
+    description: json["description"]?.toString() ?? "",
+    propertyType: json["property_type"]?.toString() ?? "",
+    location: json["location"]?.toString() ?? "",
+    price: double.tryParse(json["price"].toString()) ?? 0.0,
+    bedrooms: int.tryParse(json["bedrooms"].toString()) ?? 0,
+    bathrooms: int.tryParse(json["bathrooms"].toString()) ?? 0,
+    diningRooms: int.tryParse(json["dining_rooms"].toString()) ?? 0,
+    amenities: json["amenities"]?.toString() ?? "",
+    image: json["image"]?.toString() ?? "",
+    status: json["status"]?.toString() ?? "",
+  );
+}
 }
