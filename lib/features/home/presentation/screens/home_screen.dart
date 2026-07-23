@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../dashboard/presentation/screens/dashboard_screen.dart';
+import '../../../property/presentation/screens/property_screen.dart';
+import '../../../messages/presentation/screens/messages_screen.dart';
+import '../../../profile/presentation/screens/profile_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -11,26 +16,30 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
 
   final List<Widget> screens = [
-    const Center(child: Text("dashboard")),
-    const Center(child: Text("Home")),
-    const Center(child: Text("Properties")),
-    const Center(child: Text("Messages")),
-    const Center(child: Text("Profile")),
+    const DashboardScreen(),
+    const PropertyScreen(),
+    const MessagesScreen(),
+    const ProfileScreen(),
+  ];
+
+  final List<String> titles = const [
+    "Dashboard",
+    "Properties",
+    "Messages",
+    "Profile",
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tenant Connect Home"),
+        title: Text(titles[currentIndex]),
+        centerTitle: true,
       ),
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
         currentIndex: currentIndex,
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
             currentIndex = index;
@@ -38,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.dashboard),
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(

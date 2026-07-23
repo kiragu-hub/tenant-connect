@@ -4,7 +4,7 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    // TODO: replace with real API call (e.g. Firebase, REST, etc.)
+    // Mock implementation — replace with real API call (Firebase, REST, etc.)
     await Future.delayed(const Duration(seconds: 1));
 
     if (email.isEmpty || password.isEmpty) {
@@ -19,7 +19,7 @@ class AuthService {
     required String phone,
     required String password,
   }) async {
-    // TODO: replace with real API call
+    // Mock implementation — replace with real API call
     await Future.delayed(const Duration(seconds: 1));
     // On success: maybe auto-login or navigate to login screen
   }

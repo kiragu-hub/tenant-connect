@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tenantconnect/app/router/app_routes.dart';
-
+import 'package:tenantconnect/services/api_service.dart';
+import 'package:tenantconnect/services/session_service.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -25,13 +26,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _login() async {
-    if (!_formKey.currentState!.validate()) return;
+  if (!_formKey.currentState!.validate()) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+  setState(() {
+    _isLoading = true;
+  });
 
-    await Future.delayed(const Duration(seconds: 2));
+  try {
+    final result = await ApiService.login(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
 
     if (!mounted) return;
 
@@ -39,10 +44,41 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
 
+    if (result["success"] == true) {
+  // Get the logged-in user from the API response
+  final user = result["user"];
+
+ await SessionService.saveUser(
+  id: int.parse(user["id"].toString()),
+  fullname: user["fullname"],
+  email: user["email"],
+  role: user["role"],
+);
+if (!mounted) return;
+  // Go to Home Screen
+  Navigator.pushReplacementNamed(context, AppRoutes.home);
+
+} else {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(result["message"]),
+    ),
+  );
+}
+  } catch (e) {
     if (!mounted) return;
 
-    Navigator.pushReplacementNamed(context, AppRoutes.home);
+    setState(() {
+      _isLoading = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Error: $e"),
+      ),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {

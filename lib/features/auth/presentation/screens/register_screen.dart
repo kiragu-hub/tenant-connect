@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tenantconnect/app/router/app_routes.dart';
+import 'package:tenantconnect/services/api_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,15 +12,26 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final _fullNameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  final TextEditingController _fullNameController =
+      TextEditingController();
+
+  final TextEditingController _emailController =
+      TextEditingController();
+
+  final TextEditingController _phoneController =
+      TextEditingController();
+
+  final TextEditingController _passwordController =
+      TextEditingController();
+
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _isLoading = false;
+
+  String _selectedRole = "tenant";
 
   @override
   void dispose() {
@@ -38,33 +50,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _isLoading = true;
     });
 
-    // Simulate registration
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final result = await ApiService.register(
+        fullname: _fullNameController.text.trim(),
+        email: _emailController.text.trim(),
+        phone: _phoneController.text.trim(),
+        password: _passwordController.text.trim(),
+        role: _selectedRole,
+      );
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    setState(() {
-      _isLoading = false;
-    });
+      setState(() {
+        _isLoading = false;
+      });
 
-    if (!mounted) return;
+      if (result["success"] == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result["message"]),
+            backgroundColor: Colors.green,
+          ),
+        );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Account created successfully!"),
-      ),
-    );
+        Navigator.pushReplacementNamed(
+          context,
+          AppRoutes.login,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result["message"]),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
 
-    if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
 
-    Navigator.pushReplacementNamed(context, AppRoutes.login);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Registration failed: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -72,15 +112,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               horizontal: 24,
               vertical: 20,
             ),
-
             child: Form(
               key: _formKey,
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
 
-                  // Logo
                   Center(
                     child: Image.asset(
                       'assets/images/logo.png',
@@ -112,8 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   const SizedBox(height: 35),
-
-                  TextFormField(
+                                    TextFormField(
                     controller: _fullNameController,
                     decoration: InputDecoration(
                       labelText: "Full Name",
@@ -123,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return "Please enter your full name";
                       }
                       return null;
@@ -136,18 +172,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      labelText: "Email",
+                      labelText: "Email Address",
                       prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return "Please enter your email";
                       }
 
-                      if (!value.contains('@')) {
+                      if (!value.contains("@")) {
                         return "Please enter a valid email";
                       }
 
@@ -168,10 +204,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return "Please enter your phone number";
                       }
                       return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  DropdownButtonFormField<String>(
+                    initialValue: _selectedRole,
+                    decoration: InputDecoration(
+                      labelText: "Register As",
+                      prefixIcon: const Icon(Icons.people),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: "tenant",
+                        child: Text("Tenant"),
+                      ),
+                      DropdownMenuItem(
+                        value: "landlord",
+                        child: Text("Landlord"),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedRole = value!;
+                      });
                     },
                   ),
 
@@ -238,16 +302,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please confirm your password";
+                      }
+
                       if (value != _passwordController.text) {
                         return "Passwords do not match";
                       }
+
                       return null;
                     },
                   ),
 
                   const SizedBox(height: 30),
-
-                  SizedBox(
+                                    SizedBox(
                     height: 55,
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _register,
@@ -259,8 +327,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       child: _isLoading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
+                          ? const SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3,
+                              ),
                             )
                           : const Text(
                               "CREATE ACCOUNT",
@@ -277,8 +350,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Already have an account?"),
-
+                      const Text(
+                        "Already have an account?",
+                      ),
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
